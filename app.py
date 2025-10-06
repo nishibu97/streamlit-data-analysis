@@ -4,7 +4,7 @@ import streamlit as st
 
 from components.data_analysis import render_data_analysis_page
 from components.pages import render_about_page, render_home_page
-from components.sidebar import render_sidebar_menu
+from components.sidebar import get_sidebar_css, render_sidebar_menu
 
 
 def main():
@@ -164,6 +164,8 @@ def main():
             color: #991B1B;
             border-left: 4px solid #DC2626;
         }
+
+        """ + get_sidebar_css() + """
         </style>
         """,
         unsafe_allow_html=True,
@@ -176,6 +178,9 @@ def main():
     if current_page == "home":
         render_home_page()
     elif current_page == "analysis":
+        render_data_analysis_page()
+    elif current_page == "visualization":
+        # データ可視化ページ（現在は分析ページと同じ内容を表示）
         render_data_analysis_page()
     elif current_page == "about":
         render_about_page()
