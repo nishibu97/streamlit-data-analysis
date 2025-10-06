@@ -1,0 +1,15 @@
+# Streamlit - メインフレームワーク
+streamlit>=1.28.0
+
+# データ処理
+pandas>=2.0.0
+numpy>=1.24.0
+
+# データ可視化
+plotly>=5.17.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# その他ユーティリティ
+python-dateutil>=2.8.2
+
