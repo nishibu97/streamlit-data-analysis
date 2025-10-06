@@ -3,6 +3,8 @@
 import streamlit as st
 
 from components.data_analysis import render_data_analysis_page
+from components.pages import render_about_page, render_home_page
+from components.sidebar import render_sidebar_menu
 
 
 def main():
@@ -167,18 +169,27 @@ def main():
         unsafe_allow_html=True,
     )
 
-    # データ分析画面の表示
-    render_data_analysis_page()
+    # サイドバーメニューの表示
+    current_page = render_sidebar_menu()
+
+    # ページごとの表示
+    if current_page == "home":
+        render_home_page()
+    elif current_page == "analysis":
+        render_data_analysis_page()
+    elif current_page == "about":
+        render_about_page()
 
     # フッター
     st.sidebar.markdown("---")
-    st.sidebar.markdown("### 📖 使い方")
     st.sidebar.markdown(
         """
-        1. **データ読み込み**: サンプルデータまたはCSVファイルをアップロード
-        2. **フィルタリング**: 年齢層で絞り込み
-        3. **可視化**: 各種グラフで分析
-        """
+        <div style='text-align: center; color: #93C5FD; font-size: 0.9em;'>
+        Powered by Streamlit<br>
+        © 2025 Data Analysis App
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
 
