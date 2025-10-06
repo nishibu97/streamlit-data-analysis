@@ -1,17 +1,15 @@
 """データ分析画面コンポーネント"""
 
-import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from typing import Optional
+import streamlit as st
 
 from utils.data_loader import (
-    load_sample_data,
-    load_csv_data,
-    validate_sports_survey_data,
-    get_sports_columns,
     filter_by_age_group,
+    get_sports_columns,
+    load_sample_data,
+    validate_sports_survey_data,
 )
 
 
@@ -25,7 +23,9 @@ def render_data_analysis_page():
     if df is not None and not df.empty:
         # データ検証
         if not validate_sports_survey_data(df):
-            st.error("⚠️ データ形式が正しくありません。必須カラム: 回答者ID, 年齢層, スポーツ種目(3つ以上)")
+            st.error(
+                "⚠️ データ形式が正しくありません。必須カラム: 回答者ID, 年齢層, スポーツ種目(3つ以上)"
+            )
             return
 
         # サイドバーでフィルタリングオプション
@@ -38,7 +38,7 @@ def render_data_analysis_page():
         _render_visualization_section(filtered_df)
 
 
-def _render_data_loading_section() -> Optional[pd.DataFrame]:
+def _render_data_loading_section() -> pd.DataFrame | None:
     """データ読み込みセクションの描画"""
     st.header("📁 データ読み込み")
 
@@ -141,8 +141,8 @@ def _render_visualization_section(df: pd.DataFrame):
         height=400,
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="#1E3A8A", size=12),
-        title_font=dict(size=16, color="#1E3A8A", family="Arial, sans-serif"),
+        font={"color": "#1E3A8A", "size": 12},
+        title_font={"size": 16, "color": "#1E3A8A", "family": "Arial, sans-serif"},
     )
     st.plotly_chart(fig_bar, use_container_width=True)
 
@@ -171,8 +171,8 @@ def _render_visualization_section(df: pd.DataFrame):
                     y=age_sport_data[sport],
                     mode="lines+markers",
                     name=sport,
-                    line=dict(width=3, color=blue_colors[idx % len(blue_colors)]),
-                    marker=dict(size=10, color=blue_colors[idx % len(blue_colors)]),
+                    line={"width": 3, "color": blue_colors[idx % len(blue_colors)]},
+                    marker={"size": 10, "color": blue_colors[idx % len(blue_colors)]},
                 )
             )
 
@@ -184,13 +184,13 @@ def _render_visualization_section(df: pd.DataFrame):
             hovermode="x unified",
             plot_bgcolor="rgba(0,0,0,0)",
             paper_bgcolor="rgba(0,0,0,0)",
-            font=dict(color="#1E3A8A", size=12),
-            title_font=dict(size=16, color="#1E3A8A", family="Arial, sans-serif"),
-            legend=dict(
-                bgcolor="rgba(255,255,255,0.9)",
-                bordercolor="#E2E8F0",
-                borderwidth=1,
-            ),
+            font={"color": "#1E3A8A", "size": 12},
+            title_font={"size": 16, "color": "#1E3A8A", "family": "Arial, sans-serif"},
+            legend={
+                "bgcolor": "rgba(255,255,255,0.9)",
+                "bordercolor": "#E2E8F0",
+                "borderwidth": 1,
+            },
         )
         st.plotly_chart(fig_line, use_container_width=True)
 
@@ -202,13 +202,13 @@ def _render_visualization_section(df: pd.DataFrame):
     # 青・白・黒系のカラースケール（赤・黄色を使わない）
     fig_heatmap = px.imshow(
         correlation_matrix,
-        labels=dict(x="スポーツ種目", y="スポーツ種目", color="相関係数"),
+        labels={"x": "スポーツ種目", "y": "スポーツ種目", "color": "相関係数"},
         x=sports_cols,
         y=sports_cols,
         color_continuous_scale=[
-            [0, "#0F172A"],      # 負の相関: ダークブルー/ブラック
-            [0.5, "#F8FAFC"],    # 無相関: ホワイト
-            [1, "#1E3A8A"],      # 正の相関: プライマリブルー
+            [0, "#0F172A"],  # 負の相関: ダークブルー/ブラック
+            [0.5, "#F8FAFC"],  # 無相関: ホワイト
+            [1, "#1E3A8A"],  # 正の相関: プライマリブルー
         ],
         aspect="auto",
         zmin=-1,
@@ -219,8 +219,8 @@ def _render_visualization_section(df: pd.DataFrame):
         height=500,
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="#1E3A8A", size=12),
-        title_font=dict(size=16, color="#1E3A8A", family="Arial, sans-serif"),
+        font={"color": "#1E3A8A", "size": 12},
+        title_font={"size": 16, "color": "#1E3A8A", "family": "Arial, sans-serif"},
     )
     st.plotly_chart(fig_heatmap, use_container_width=True)
 
@@ -245,7 +245,7 @@ def _render_visualization_section(df: pd.DataFrame):
             height=400,
             plot_bgcolor="rgba(0,0,0,0)",
             paper_bgcolor="rgba(0,0,0,0)",
-            font=dict(color="#1E3A8A", size=12),
-            title_font=dict(size=16, color="#1E3A8A", family="Arial, sans-serif"),
+            font={"color": "#1E3A8A", "size": 12},
+            title_font={"size": 16, "color": "#1E3A8A", "family": "Arial, sans-serif"},
         )
         st.plotly_chart(fig_box, use_container_width=True)

@@ -1,8 +1,8 @@
 """データ読み込みユーティリティモジュール"""
 
-import pandas as pd
 from pathlib import Path
-from typing import Optional
+
+import pandas as pd
 
 
 def load_csv_data(file_path: str) -> pd.DataFrame:
@@ -76,7 +76,7 @@ def get_sports_columns(df: pd.DataFrame) -> list[str]:
     return [col for col in df.columns if col not in excluded_columns]
 
 
-def filter_by_age_group(df: pd.DataFrame, age_group: Optional[str] = None) -> pd.DataFrame:
+def filter_by_age_group(df: pd.DataFrame, age_group: str | None = None) -> pd.DataFrame:
     """
     年齢層でデータをフィルタリング
 

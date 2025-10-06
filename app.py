@@ -1,6 +1,7 @@
 """Streamlit データ分析アプリケーション メインエントリーポイント"""
 
 import streamlit as st
+
 from components.data_analysis import render_data_analysis_page
 
 
