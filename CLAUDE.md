@@ -1,66 +1,68 @@
-# CLAUDE.md
+# Streamlit データ分析画面プロジェクト
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## プロジェクト概要
 
-## Project Overview
+Python Streamlit を使用した生成 AI の PoC 開発プロジェクト。
+インタラクティブなデータ可視化と分析機能を提供する。
 
-This is a Streamlit-based data analysis dashboard for a generative AI Proof of Concept. The project is written in Japanese and designed for interactive data visualization and analysis with potential AI integration.
+## 技術スタック
 
-## Development Commands
+- Python 3.12
+- Streamlit (Web アプリケーションフレームワーク)
+- Pandas (データ分析・処理)
+- Plotly/Matplotlib (データ可視化)
 
-### Environment Setup
-```bash
-# Create virtual environment
-python -m venv venv
+## ディレクトリ構造
 
-# Activate virtual environment (macOS/Linux)
-source venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
+```
+Streamlit/
+├── app.py                 # メインアプリケーション
+├── requirements.txt       # 依存パッケージ
+├── data/                  # テストデータ
+│   └── sample_data.csv
+├── components/            # UIコンポーネント
+│   └── __init__.py
+└── utils/                 # ユーティリティ関数
+    └── __init__.py
 ```
 
-### Running the Application
-```bash
-# Start Streamlit application
-streamlit run app.py
+## 開発コマンド
 
-# Use alternative port if 8501 is busy
-streamlit run app.py --server.port 8502
-```
+- **起動**: `streamlit run app.py`
+- **テスト**: `pytest tests/`
+- **Lint**: `ruff check .`
+- **フォーマット**: `black .`
 
-### Troubleshooting
-```bash
-# Check Streamlit version
-streamlit version
+## コーディング規約
 
-# Upgrade Streamlit
-pip install --upgrade streamlit
-```
+- PEP 8 に準拠
+- 関数・クラスには docstring を記載
+- 型ヒントを積極的に使用
+- Streamlit のベストプラクティスに従う
 
-## Project Structure
+## 開発の進め方
 
-This is a minimal Streamlit project currently containing:
-- `README.md`: Japanese documentation with setup instructions
-- `requirements.txt`: Python dependencies including Streamlit, Pandas, Plotly, Matplotlib, Seaborn
-- Planned structure includes:
-  - `app.py`: Main application file (not yet created)
-  - `data/`: Test data directory  
-  - `components/`: UI components
-  - `utils/`: Utility functions
+1. 機能追加前に実装計画を立てる
+2. 小さな単位で実装・テストを繰り返す
+3. コミット前にコードフォーマットと型チェックを実行
+4. コミットメッセージは Conventional Commits に従う
 
-## Technology Stack
+## ワークキーワード
 
-- **Python 3.8+**: Base language
-- **Streamlit**: Web application framework
-- **Pandas**: Data analysis and processing
-- **Plotly/Matplotlib/Seaborn**: Data visualization
-- **NumPy**: Numerical computing
+- **"機能追加"**: `/feature` コマンドを実行
+- **"コードレビュー"**: `/review` コマンドを実行
+- **"テスト生成"**: `/test-gen` コマンドを実行
+- **"ドキュメント更新"**: `/update-docs` コマンドを実行
+- **"コミット"**: `/commit` コマンドを実行
 
-## Development Notes
+## 注意事項
 
-- Code should follow PEP 8 standards
-- Functions and classes should include proper docstrings
-- The project is currently in early setup phase with only README and requirements defined
-- Main application entry point should be `app.py` when created
-- Japanese language is used in documentation and likely in UI components
+- 仮想環境 (venv) を必ず使用する
+- requirements.txt は常に最新に保つ
+- サンプルデータは data/ ディレクトリに配置
+- 本番環境での使用は想定していない（学習目的）
+
+## 参考リソース
+
+- Streamlit 公式ドキュメント: https://docs.streamlit.io/
+- Pandas Documentation: https://pandas.pydata.org/docs/
