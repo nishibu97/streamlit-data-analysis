@@ -5,6 +5,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
+from components.export_ui import render_export_section
 from utils.data_loader import (
     filter_by_age_group,
     get_sports_columns,
@@ -33,6 +34,9 @@ def render_data_analysis_page():
 
         # データプレビューセクション
         _render_data_preview_section(filtered_df)
+
+        # データエクスポートセクション
+        render_export_section(filtered_df, prefix="sports_data")
 
         # 可視化セクション
         _render_visualization_section(filtered_df)
