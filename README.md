@@ -63,6 +63,37 @@ streamlit run app.py
 
 ブラウザが自動的に開き、`http://localhost:8501` でアプリケーションにアクセスできます。
 
+## Docker を使用した実行
+
+### Docker Compose で起動（推奨）
+
+```bash
+# イメージのビルドとコンテナの起動
+docker compose up -d
+
+# ログの確認
+docker compose logs -f
+
+# 停止
+docker compose down
+```
+
+### Docker コマンドで起動
+
+```bash
+# イメージのビルド
+docker build -t streamlit-data-analysis .
+
+# コンテナの実行
+docker run -p 8501:8501 streamlit-data-analysis
+
+# Docker Hub からプル（リリース版）
+docker pull nishibu97/streamlit-data-analysis:latest
+docker run -p 8501:8501 nishibu97/streamlit-data-analysis:latest
+```
+
+アプリケーションは `http://localhost:8501` でアクセス可能です。
+
 ## プロジェクト構造
 
 ```
@@ -81,6 +112,12 @@ Streamlit/
 
 ## 開発環境
 
+### 開発用依存関係のインストール
+
+```bash
+pip install -r requirements-dev.txt
+```
+
 ### エディタ推奨設定
 
 - VS Code + Python 拡張機能
@@ -90,6 +127,68 @@ Streamlit/
 
 - PEP 8 に準拠
 - 関数・クラスには適切な docstring を記載
+
+### コード品質チェック
+
+```bash
+# Lint チェック
+ruff check .
+
+# フォーマットチェック
+black --check .
+
+# 型チェック
+mypy . --config-file=pyproject.toml
+
+# テスト実行
+pytest tests/ -v
+
+# カバレッジ付きテスト
+pytest tests/ --cov=. --cov-report=html
+```
+
+## CI/CD パイプライン
+
+このプロジェクトは GitHub Actions を使用した CI/CD パイプラインを実装しています。
+
+### CI (継続的インテグレーション)
+
+**トリガー**: `main`, `develop`, `feature/**` ブランチへの push、または PR
+
+- **マルチバージョンテスト**: Python 3.10, 3.11, 3.12
+- **コード品質チェック**: ruff, black, mypy
+- **テスト実行**: pytest + カバレッジ
+- **セキュリティチェック**: safety, bandit
+- **カバレッジレポート**: Codecov へ自動アップロード
+
+### CD (継続的デプロイ)
+
+**トリガー**: `v*.*.*` 形式のタグ push
+
+- Docker イメージのビルド（マルチアーキテクチャ: amd64, arm64）
+- Docker Hub および GitHub Container Registry へ push
+- GitHub Release の自動作成
+
+### リリース手順
+
+```bash
+# バージョンタグを作成
+git tag v1.0.0
+git push origin v1.0.0
+
+# 自動的に以下が実行されます：
+# 1. Docker イメージのビルド
+# 2. Docker Hub / GHCR へのプッシュ
+# 3. GitHub Release の作成
+```
+
+### 必要な GitHub Secrets
+
+CI/CD パイプラインを使用するには、以下の Secrets を設定してください：
+
+- `DOCKER_USERNAME`: Docker Hub ユーザー名
+- `DOCKER_PASSWORD`: Docker Hub パスワード/アクセストークン
+- `CODECOV_TOKEN`: Codecov トークン（オプション）
 
 ## トラブルシューティング
 

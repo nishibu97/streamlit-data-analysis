@@ -165,7 +165,9 @@ def main():
             border-left: 4px solid #DC2626;
         }
 
-        """ + get_sidebar_css() + """
+        """
+        + get_sidebar_css()
+        + """
         </style>
         """,
         unsafe_allow_html=True,

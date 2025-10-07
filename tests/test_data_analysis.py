@@ -65,9 +65,7 @@ class TestDataAnalysisIntegration:
         # 対称性
         for i in range(len(sports_cols)):
             for j in range(len(sports_cols)):
-                assert correlation_matrix.iloc[i, j] == pytest.approx(
-                    correlation_matrix.iloc[j, i]
-                )
+                assert correlation_matrix.iloc[i, j] == pytest.approx(correlation_matrix.iloc[j, i])
 
 
 class TestDataVisualizationPreparation:
@@ -84,7 +82,9 @@ class TestDataVisualizationPreparation:
         assert isinstance(avg_interest, pd.Series)
         assert len(avg_interest) == len(sports_cols)
         # 降順になっていることを確認
-        assert all(avg_interest.iloc[i] >= avg_interest.iloc[i + 1] for i in range(len(avg_interest) - 1))
+        assert all(
+            avg_interest.iloc[i] >= avg_interest.iloc[i + 1] for i in range(len(avg_interest) - 1)
+        )
 
     def test_line_chart_data_preparation(self, sample_sports_data):
         """折れ線グラフ用データ準備のテスト"""

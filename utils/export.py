@@ -70,9 +70,7 @@ def export_to_json(df: pd.DataFrame, orient: str = "records") -> bytes:
     return df.to_json(orient=orient, force_ascii=False, indent=2).encode("utf-8")
 
 
-def generate_filename(
-    base_name: str = "export_data", file_format: ExportFormat = "csv"
-) -> str:
+def generate_filename(base_name: str = "export_data", file_format: ExportFormat = "csv") -> str:
     """
     エクスポートファイル名を生成（タイムスタンプ付き）
 

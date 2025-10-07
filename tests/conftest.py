@@ -44,9 +44,7 @@ def sample_sports_data():
 @pytest.fixture
 def invalid_sports_data():
     """テスト用不正データ"""
-    return pd.DataFrame(
-        {"年齢層": ["20代", "30代"], "サッカー": [5, 4]}  # 回答者IDが欠損
-    )
+    return pd.DataFrame({"年齢層": ["20代", "30代"], "サッカー": [5, 4]})  # 回答者IDが欠損
 
 
 @pytest.fixture

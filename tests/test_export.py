@@ -152,10 +152,7 @@ class TestGetMimeType:
     def test_get_mime_type_excel(self):
         """Excel の MIME タイプを確認"""
         mime_type = get_mime_type("excel")
-        assert (
-            mime_type
-            == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        )
+        assert mime_type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
     def test_get_mime_type_json(self):
         """JSON の MIME タイプを確認"""

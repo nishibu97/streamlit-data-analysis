@@ -1,7 +1,5 @@
 """ファイル名サニタイゼーションのテストモジュール"""
 
-import pytest
-
 from utils.export import generate_filename
 
 

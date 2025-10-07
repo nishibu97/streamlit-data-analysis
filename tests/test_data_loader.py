@@ -1,7 +1,5 @@
 """データローダーのテスト"""
 
-from pathlib import Path
-
 import pandas as pd
 import pytest
 
@@ -89,17 +87,13 @@ class TestValidateSportsSurveyData:
 
     def test_validate_missing_required_column(self):
         """必須カラム欠損データの検証"""
-        df = pd.DataFrame(
-            {"年齢層": ["20代", "30代"], "サッカー": [5, 4], "野球": [4, 5]}
-        )
+        df = pd.DataFrame({"年齢層": ["20代", "30代"], "サッカー": [5, 4], "野球": [4, 5]})
 
         assert validate_sports_survey_data(df) is False
 
     def test_validate_insufficient_sports_columns(self):
         """スポーツカラム不足データの検証"""
-        df = pd.DataFrame(
-            {"回答者ID": [1, 2], "年齢層": ["20代", "30代"], "サッカー": [5, 4]}
-        )
+        df = pd.DataFrame({"回答者ID": [1, 2], "年齢層": ["20代", "30代"], "サッカー": [5, 4]})
 
         assert validate_sports_survey_data(df) is False
 

@@ -130,7 +130,5 @@ def _download_data(df: pd.DataFrame, file_format: ExportFormat, prefix: str):
         st.success(f"✅ {file_format.upper()}形式でエクスポート準備が完了しました！")
 
     except Exception as e:
-        logger.error(
-            f"Export failed: format={file_format}, error={str(e)}", exc_info=True
-        )
+        logger.error(f"Export failed: format={file_format}, error={str(e)}", exc_info=True)
         st.error(f"⚠️ エクスポート中にエラーが発生しました: {str(e)}")
