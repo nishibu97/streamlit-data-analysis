@@ -12,6 +12,11 @@ from utils.data_loader import (
     load_sample_data,
     validate_sports_survey_data,
 )
+from utils.history_manager import (
+    HistoryManager,
+    optimize_dataframe_memory,
+    render_history_sidebar,
+)
 
 
 def render_data_analysis_page():
@@ -46,38 +51,66 @@ def _render_data_loading_section() -> pd.DataFrame | None:
     """データ読み込みセクションの描画"""
     st.header("📁 データ読み込み")
 
+    # 履歴マネージャーの初期化
+    history_manager = HistoryManager(max_history=5)
+
     col1, col2 = st.columns(2)
 
+    # ファイルサイズ制限（10MB）
+    MAX_FILE_SIZE = 10 * 1024 * 1024
+
     with col1:
-        use_sample = st.button("サンプルデータを使用", type="primary", use_container_width=True)
+        use_sample = st.button(
+            "サンプルデータを使用", type="primary", use_container_width=True
+        )
 
     with col2:
         uploaded_file = st.file_uploader(
             "CSVファイルをアップロード",
             type=["csv"],
-            help="回答者ID, 年齢層, スポーツ種目のカラムを含むCSVファイル",
+            help="回答者ID, 年齢層, スポーツ種目のカラムを含むCSVファイル（最大10MB）",
         )
 
     # データの読み込み
     if use_sample:
         try:
             df = load_sample_data()
+            # メモリ最適化
+            df = optimize_dataframe_memory(df)
+            # 履歴に追加
+            file_size = f"{df.memory_usage(deep=True).sum() / 1024:.1f}KB"
+            history_manager.add_history("sample_data.csv", df, file_size)
             st.success(f"📊 サンプルデータを読み込みました（{len(df)}件）")
-            return df
+            st.rerun()
         except Exception as e:
             st.error(f"⚠️ エラー: {str(e)}")
             return None
 
     if uploaded_file is not None:
+        # ファイルサイズチェック
+        if uploaded_file.size > MAX_FILE_SIZE:
+            st.error("❌ ファイルサイズが大きすぎます（最大10MB）")
+            return None
+
         try:
             df = pd.read_csv(uploaded_file)
-            st.success(f"📊 ファイルを読み込みました（{len(df)}件）")
-            return df
+            # メモリ最適化
+            df = optimize_dataframe_memory(df)
+            # ファイルサイズ計算
+            file_size = f"{uploaded_file.size / 1024:.1f}KB"
+            # 履歴に追加
+            history_manager.add_history(uploaded_file.name, df, file_size)
+            st.success(f"📊 {uploaded_file.name} を読み込みました（{len(df)}件）")
+            st.rerun()
         except Exception as e:
             st.error(f"⚠️ ファイルの読み込みに失敗: {str(e)}")
             return None
 
-    return None
+    # サイドバーに履歴を表示
+    render_history_sidebar(history_manager)
+
+    # 現在のデータを取得
+    return history_manager.get_current_data()
 
 
 def _render_sidebar_filters(df: pd.DataFrame) -> pd.DataFrame:
